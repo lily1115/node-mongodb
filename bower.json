@@ -1,0 +1,25 @@
+{
+  "name": "nodeweb",
+  "main": "index.js",
+  "authors": [
+    "lily1115 <1192157164@qq.com>"
+  ],
+  "description": "express+node create web",
+  "keywords": [
+    "express",
+    "mongodb"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
