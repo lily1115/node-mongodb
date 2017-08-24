@@ -4,35 +4,20 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session = require('express-session');
-var MongoStore = require('connect-mongo/es5')(session)
-var flash = require('connect-flash')
+
+var crypto = require("crypto")
+var md5 = crypto.createHash('md5')
+
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 
-var setting = require('./setting')
-
 var app = express();
 
-app.use(session({
-  secret: setting.cookieSecret,
-  key: setting.db,
-  cookie: {maxAge: 1000 * 60 * 60 * 24 * 30}, // 30days
-  proxy: true,
-  resave: true,
-  saveUninitialized: true,
-  store: new MongoStore({
-    db: setting.db,
-    host: setting.host,
-    port: setting.port,
-    url: 'mongodb://localhost:27017/'
-  })
-}))
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.use(flash())
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
