@@ -9,6 +9,7 @@ router.get('/login', function(req, res, next) {
   res.render('login', { title: '登录'})
 })
 router.post('/login', function(req, res, next){
+  
 })
 
 router.get('/reg', function(req, res, next) {

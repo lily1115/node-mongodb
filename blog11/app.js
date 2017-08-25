@@ -8,6 +8,11 @@ var bodyParser = require('body-parser');
 var crypto = require("crypto")
 var md5 = crypto.createHash('md5')
 
+var session = require('express-session')
+var MongoStore = require('connect-mongo')(session)
+var flash = require('connect-flash')
+var settings = require('./setting')
+
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -25,6 +30,24 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(flash())
+// 处理表单及文件上传的中间件
+app.use(require('express-formidable')({
+  uploadDir: path.join(__dirname, 'public/img'),// 上传文件目录
+  keepExtensions: true// 保留后缀
+}));
+
+app.use(session({
+  secret: settings.cookieSecret,
+  saveUninitialized: false, // don't create session until something stored 
+  resave: false, //don't save session if unmodified 
+  cookie: {
+    maxAge: 1000*60*60*24*30 // 30days
+  },
+  store: new MongoStore({
+    url: 'mongodb://localhost/myblog'
+  })
+}))
 
 app.use('/', index);
 app.use('/users', users);
