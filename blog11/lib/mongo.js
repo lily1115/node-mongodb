@@ -1,4 +1,5 @@
 var config = require('config-lite')(__dirname);
+// var config = require('../config/default')
 var Mongolass = require('mongolass');
 var mongolass = new Mongolass();
 mongolass.connect(config.mongodb);
