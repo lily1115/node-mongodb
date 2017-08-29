@@ -1,5 +1,6 @@
 var express = require('express')
-var Router = express.Router()
+var router = express.Router()
+var checkLogin = require('../middlewares/check').checkLogin
 
 router.get('/', checkLogin, function (req, res, next) {
   req.session.user = null

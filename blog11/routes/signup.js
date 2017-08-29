@@ -15,7 +15,7 @@ router.post('/', checkNotLogin, function(req, res, next) {
   var name = req.fields.name
   var gender = req.fields.gender
   var bio = req.fields.bio
-  var avatar = req.fields.avatar.path.split(path.sep).pop()
+  var avatar = req.files.avatar.path.split(path.sep).pop()
   var password = req.fields.password
   var repassword = req.fields.repassword
 
@@ -42,7 +42,7 @@ router.post('/', checkNotLogin, function(req, res, next) {
     // 注册失败，异步删除上传的头像
     fs.unlink(req.files.avatar.path)
     req.flash('error', e.message)
-    return res.redirect('/reg')
+    return res.redirect('/signup')
   }
   password = sha1(password)
 
@@ -67,7 +67,7 @@ router.post('/', checkNotLogin, function(req, res, next) {
       fs.unlink(req.files.avatar.path)
       if (e.message.match('E11000 duplicate key')) {
         req.flash('error', '用户名已被占用')
-        return req.redirect('/reg')
+        return req.redirect('/signup')
       }
       next(e)
     })

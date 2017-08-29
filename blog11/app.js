@@ -11,6 +11,9 @@ var md5 = crypto.createHash('md5')
 var session = require('express-session')
 var MongoStore = require('connect-mongo')(session)
 var flash = require('connect-flash')
+var pkg = require('./package.json')
+var config = require('config-lite')(__dirname)
+var routes = require('./routes')
 
 var app = express();
 
@@ -37,44 +40,51 @@ app.use(session({
   name: config.session.key, // 设置cookie中保存session_id的字段名称
   secret: config.session.secret,
   saveUninitialized: false, // don't create session until something stored 
-  resave: false, //don't save session if unmodified 
+  resave: true, // 强制更新 session
   cookie: {
-    maxAge: 1000*60*60*24*30 // 30days
+    maxAge: config.session.maxAge // 30days
   },
   store: new MongoStore({
-    url: 'mongodb://localhost:27017/myblog'
+    url: config.mongodb
   })
 }))
 
+// 设置模板全局常量
+app.locals.blog = {
+  title: pkg.name,
+  description: pkg.description
+};
 
-
-var indexRouter = require('./routes/index');
-var userRouter = require('./routes/users');
-var posts = require('./routes/posts');
-
-app.use('/', indexRouter);
-app.use('/users', userRouter);
-app.use('/posts', posts);
-app.use('/article', function (req, res) {
-  res.send('hello world')
-})
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+// 添加模板必需的三个变量
+app.use(function (req, res, next) {
+  res.locals.user = req.session.user;
+//   res.locals.message = err.message;
+  res.locals.success = req.flash('success').toString();
+  res.locals.error = req.flash('error').toString();
+  next();
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// app.use(function(err, req, res, next) {
+//   // set locals, only providing error in development
+//   res.locals.message = err.message;
+//   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+//   // render the error page
+//   res.status(err.status || 500);
+//   res.render('error');
+// });
 
+// catch 404 and forward to error handler
+// app.use(function(req, res, next) {
+//   var err = new Error('Not Found');
+//   err.status = 404;
+//   next(err);
+// });
+routes(app)
+
+
+app.listen(config.port, function () {
+    console.log(`${pkg.name} listening on port ${config.port}`)
+})
 module.exports = app;
