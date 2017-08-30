@@ -1,7 +1,5 @@
 <%- include('header') %>
-这是主页
-<!-- <div>
-    <p>这是主页</p>
-    <h1>nicai</h1>
-</div> -->
+<% posts.forEach(function (post) { %>
+  <%- include('components/post-content', {post: post}) %>
+<% }) %>
 <%- include('footer') %>

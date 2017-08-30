@@ -57,6 +57,7 @@ router.post('/', checkNotLogin, function(req, res, next) {
   UserModel.create(user)
     .then((result) => {
       user = result.ops[0]
+      console.log(1111, result, user)
       delete user.password
       req.session.user = user
       req.flash('success', '注册成功')

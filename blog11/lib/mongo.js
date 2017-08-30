@@ -38,3 +38,13 @@ exports.Post = mongolass.model('Post', {
 })
 // descending ranking
 exports.Post.index({author: 1, _id: -1}).exec()
+
+exports.Comment = mongolass.model('Comment', {
+  author: { type: Mongolass.Types.ObjectId },
+  content: { type: 'string' },
+  postId: { type: Mongolass.Types.ObjectId }
+})
+// 通过用户id 和留言id 删除一个留言
+exports.Comment.index({author: 1, _id: 1}).exec()
+// 通过文章id 获取该文章下面的所有留言
+exports.Comment.index({postId: 1, _id: 1}).exec()
