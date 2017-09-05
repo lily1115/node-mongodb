@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <title><%= blog.title %></title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/semantic-ui/2.1.8/semantic.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/semantic-ui/2.1.8/semantic.min.js"></script>
   </head>
   <body>
-    <header>
-      <h1><%= title %></h1>
-    </header>
-    <nav>
-      <span><a href="/" title="主页">home</a></span>
-      <span><a href="/login" title="登录">login</a></span>
-      <span><a href="/reg" title="注册">register</a></span>
-    </nav>
-    <article>
+  <%- include('components/nav') %>
+  <%- include('components/nav-setting') %>
+  <%- include('components/notification') %>
