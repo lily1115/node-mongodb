@@ -32,12 +32,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 // 设置静态文件目录
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(flash())
-// 处理表单及文件上传的中间件
-app.use(require('express-formidable')({
-  uploadDir: path.join(__dirname, 'public/images'),// 上传文件目录
-  keepExtensions: true// 保留后缀
-}));
 
 app.use(session({
   name: config.session.key, // 设置cookie中保存session_id的字段名称
@@ -51,6 +45,14 @@ app.use(session({
     url: config.mongodb
   })
 }))
+// flash 中间件，用来显示通知
+app.use(flash());
+
+// 处理表单及文件上传的中间件
+app.use(require('express-formidable')({
+  uploadDir: path.join(__dirname, 'public/images'),// 上传文件目录
+  keepExtensions: true// 保留后缀
+}));
 
 // 设置模板全局常量
 app.locals.blog = {
@@ -67,24 +69,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-// error handler
-// app.use(function(err, req, res, next) {
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.render('error');
-// });
-
-// catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   var err = new Error('Not Found');
-//   err.status = 404;
-//   next(err);
-// });
-
 app.use(expressWinston.logger({
   transports: [
     new winston.transports.Console({
@@ -98,6 +82,7 @@ app.use(expressWinston.logger({
   colorize: false, // Color the text and status code, using the Express/morgan color palette (text: gray, status: default green, 3XX cyan, 4XX yellow, 5XX red).
   ignoreRoute: function (req, res) { return false; } // optional: allows to skip some log messages based on request and/or response
 }));
+
 app.use(expressWinston.errorLogger({
   transports: [
     new winston.transports.Console({
@@ -110,18 +95,18 @@ app.use(expressWinston.errorLogger({
   ]
 }));
  // express-winston errorLogger makes sense AFTER the router.
-    app.use(expressWinston.errorLogger({
-      transports: [
-        new winston.transports.Console({
-          json: true,
-          colorize: true
-        }),
-        new winston.transports.File({
-          filename: 'logs/error.log'
-        })
-      ]
-    }));
-
+app.use(expressWinston.errorLogger({
+  transports: [
+    new winston.transports.Console({
+      json: true,
+      colorize: true
+    }),
+    new winston.transports.File({
+      filename: 'logs/error.log'
+    })
+  ]
+}));
+    
 routes(app)
 // app.use(router); // notice how the router goes after the logger.
 
@@ -131,16 +116,20 @@ app.use(function (err, req, res, next) {
   })
 })
 
+const port = process.env.PORT || config.port
+app.listen(port, function () {
+  console.log(`${pkg.name} listening on port ${port}`)
+})
 // app.listen(config.port, function () {
 //     console.log(`${pkg.name} listening on port ${config.port}`)
 // })
 
-if (module.parent) {
-  module.exports = app;
-} else {
-  // 监听端口，启动程序
-  app.listen(config.port, function () {
-    console.log(`${pkg.name} listening on port ${config.port}`);
-  });
-}
+// if (module.parent) {
+//   module.exports = app;
+// } else {
+//   // 监听端口，启动程序
+//   app.listen(config.port, function () {
+//     console.log(`${pkg.name} listening on port ${config.port}`);
+//   });
+// }
 module.exports = app;

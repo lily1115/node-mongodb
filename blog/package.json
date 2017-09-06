@@ -1,11 +1,12 @@
 {
-  "name": "blog11",
+  "name": "blog",
   "version": "0.0.0",
   "private": true,
   "description": "my first blog",
   "scripts": {
-    "start": "node app",
-    "test": "mocha --harmony test"
+    "start": "NODE_ENV=production pm2 start app.js --node-args='--harmony' --name 'myblog'",
+    "heroku": "NODE_ENV=production node --harmony app",
+    "test": "node --harmony ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
@@ -19,6 +20,7 @@
     "express-formidable": "^1.0.0",
     "express-session": "^1.15.5",
     "express-winston": "^2.4.0",
+    "istanbul": "^0.4.5",
     "marked": "^0.3.6",
     "moment": "^2.18.1",
     "mongolass": "^3.1.5",

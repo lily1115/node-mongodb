@@ -69,8 +69,6 @@ describe('signup', function() {
     // 其余的参数测试自行补充
     // 用户名被占用的情况
     it('duplicate name', function(done) {
-    
-      this.timeout(15000);
       agent
         .post('/signup')
         .type('form')
@@ -80,8 +78,8 @@ describe('signup', function() {
         .end(function(err, res) {
           if (err) return done(err);
           assert(res.text.match(/用户名已被占用/));
-          // done();
-          setTimeout(done, 15000);
+          done();
+          // setTimeout(done, 15000);
           
         });
     });

@@ -15,11 +15,11 @@ router.post('/', checkNotLogin, function (req, res, next) {
   UserModels.getUserByName(name)
     .then(function (user) {
       if (!user) {
-        res.flash('error', '用户不存在')
+        req.flash('error', '用户不存在')
         return res.redirect('back')
       }
       if(sha1(password) !== user.password){
-        res.flash('error', '密码错误')
+        req.flash('error', '密码错误')
         return res.redirect('back')
       }
       req.flash('success', '登录成功')
