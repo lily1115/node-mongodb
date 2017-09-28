@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+
+    <title>我的2016星座运势</title>
+
+    <!-- 载入所有的组件资源 -->
+    <script type="text/javascript" src="js/lib/jquery.js"></script>
+    <script type="text/javascript" src="js/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/lib/jquery.fullPage.js"></script>
+
+
+    <!-- H5对象：进行内容管理 -->
+
+    <script type="text/javascript" src="js/H5.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/H5.css" >
+
+    <script type="text/javascript" src="js/H5_loading.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/H5_loading.css" >
+    
+    <body>
+
+    <div class="loading">
+
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+
+        <div id="rate">0%</div>
+
+    </div>
+
+
+
+    <!-- 加载 H5组件 相关资源 -->
+    <script type="text/javascript">
+
+        var res = [
+            'Base','Bar'
+            ];
+        var html = [];
+        for(s in res){
+            html.push('<script type="text/javascript" src="js/H5Component'+res[s]+'.js"><\/script>');
+            html.push('<link rel="stylesheet" type="text/css" href="css/H5Component'+res[s]+'.css">');
+
+        }
+        document.write( html.join('') );
+    </script>
+    <!-- 主要逻辑 -->
+	<style>
+		body{
+			margin:0;
+			padding:0;
+		}
+	
+        @-webkit-keyframes rock{
+            0%{ transform:rotate(0deg)}
+            5%{ transform:rotate(3deg)}
+            10%{ transform:rotate(-4deg)}
+            15%{ transform:rotate(3deg)}
+            20%{ transform:rotate(-2deg)}
+            25%{ transform:rotate(1deg)}
+            30%{ transform:rotate(-1deg)}
+            70%{ transform:rotate(0deg)}
+            100%{ transform:rotate(0deg)}
+        }
+
+		.h5_page {background-color:#000;color:#fff;}
+		.h5_component_name_enter_small{
+			border-radius:50%;
+			background-color:rgba(76, 114, 215, 0.51);
+			width:40px;
+			height:20px;
+			padding:20px 10px;
+			line-height:20px;
+			text-align:center;
+			color:#fff;
+		}
+		.h5_component_name_enter{
+			border-radius:50%;
+			background-color:rgba(76, 114, 215, 0.51);
+			width:160px;
+			height:160px;
+			left:50%;
+			top:60%;
+			margin:-50px 0 0 -80px;
+			line-height:160px;
+			text-align:center;
+			color:#fff;
+		}
+		
+		.h5_component_name_star{
+			display:block;
+			height:80px;
+			width:28%;
+			margin:30px 0 0 4%;
+			float:left;
+			position:static;
+			color:#fff;
+			line-height:180px;
+		}
+		.h5_component_bar .name,
+		.h5_component_bar .per{color:#fff}
+		.h5_component_bar .per{
+		  position: absolute;
+			right: -25px;
+		}
+	</style>
+    <script type="text/javascript">
+	
+	if (window.DeviceMotionEvent) {
+		window.addEventListener('devicemotion', function (eventData) {
+        var acceleration = eventData.accelerationIncludingGravity;
+
+        if (Math.abs(acceleration.x) < 2 && Math.abs(acceleration.y) < 2) {
+            return false;
+        }
+
+        var degX = (acceleration.x * 10 / Math.PI)%25;
+
+            $('.h5_component_name_bg:visible').css({
+                'left': degX+'%'
+            });
+
+		}, false);
+	}
+	
+	var star_data = [
+		{name:'白羊',bg:'baiyang',date:'3月21日～4月20日',data:[['爱情' , .6  ,'#ff7676'],['事业' , .75  ],['财富' , .65  ],['整体' , .65  ]]},
+		{name:'金牛',bg:'jinniu',date:'3月21日～4月20日',data:[['爱情' , .6  ,'#ff7676'],['事业' , .75  ],['财富' , .65  ],['整体' , .65  ]]},
+		{name:'双子',bg:'shuangzi',date:'3月21日～4月20日',data:[['爱情' , .6  ,'#ff7676'],['事业' , .75  ],['财富' , .65  ],['整体' , .65  ]]},
+		{name:'巨蟹',bg:'juxie',date:'3月21日～4月20日',data:[['爱情' , .6  ,'#ff7676'],['事业' , .75  ],['财富' , .65  ],['整体' , .65  ]]},
+		{name:'狮子',bg:'shizi',date:'3月21日～4月20日',data:[['爱情' , .6  ,'#ff7676'],['事业' , .75  ],['财富' , .65  ],['整体' , .65  ]]},
+		{name:'处女',bg:'chunv',date:'3月21日～4月20日',data:[['爱情' , .6  ,'#ff7676'],['事业' , .75  ],['财富' , .65  ],['整体' , .65  ]]},
+		{name:'天秤',bg:'tianping',date:'3月21日～4月20日',data:[['爱情' , .6  ,'#ff7676'],['事业' , .75  ],['财富' , .65  ],['整体' , .65  ]]},
+		{name:'天蝎',bg:'tianxie',date:'3月21日～4月20日',data:[['爱情' , .6  ,'#ff7676'],['事业' , .75  ],['财富' , .65  ],['整体' , .65  ]]},
+		{name:'射手',bg:'sheshou',date:'3月21日～4月20日',data:[['爱情' , .6  ,'#ff7676'],['事业' , .75  ],['财富' , .65  ],['整体' , .65  ]]},
+		{name:'摩羯',bg:'mojie',date:'3月21日～4月20日',data:[['爱情' , .6  ,'#ff7676'],['事业' , .75  ],['财富' , .65  ],['整体' , .65  ]]},
+		{name:'水瓶',bg:'shuiping',date:'3月21日～4月20日',data:[['爱情' , .6  ,'#ff7676'],['事业' , .75  ],['财富' , .65  ],['整体' , .65  ]]},
+		{name:'双鱼',bg:'shuangyu',date:'3月21日～4月20日',data:[['爱情' , .6  ,'#ff7676'],['事业' , .75  ],['财富' , .65  ],['整体' , .65  ]]},
+	];
+	
+	var star_detail_data = [
+	'这年的多数时间内，白羊座都易将其莽撞、冲动的个性特质发挥过度，易给人有勇无谋的印象，务必凡事三思而后行，尤其是在个人创业、理财投资方面，皆以保守谨慎为佳，面对诱惑一定要让头脑好好降温。好在爱情运相对不错，即使频频犯错，但你火热的爱心对方仍旧能够接收到，付出不会完全白费。今年总体运势颇难期待出现漂亮高峰，但下半年整体要优于上半年，夏末秋初将迎来事业运的一波小高潮，有任何计划若在这个时间内启动，收效会明显高于其他时间段。',
+	'无突破之运，2016年金牛座适合无欲无求，懂得压制自己的欲望，知足而常乐，就能享受生活的温馨与幸福。整年运势变化不大，起伏转折间将有诸如与人发生口角、出门破财、购物体验不佳等不愉快的插曲发生，但都是过眼云烟，不用特别放在心上。上半年爱情方面能坐享甜蜜，但事业上遭遇突发事件的比例相对较高，需记得以不变应万变，年中时各项运势将达到高潮，到秋季时财富事业运还有一波反弹，届时生意投资上前期的投入将逐步开始收益。',
+	'2016对双子座而言，将会是戏剧化的一年，让你不得不印象深刻。办公室桃花缠身、出现平时鲜少交往却突然大献慇勤的人等等，诸如此类这些跳出你以往生活范畴的事件在今年层出不穷，务必处处小心，有人挖坑等你跳，但避开这些烦心事也能有好运主动找上门来。总体来说，今年会有不少沟坎摆在你的前面，尤其上半年运势跌宕较大，万不可掉以轻心，务必保持镇定、未雨绸缪才能有效避开风险。而进入深秋季节运势逐步趋于平稳，之后会有意想不到的好事发生。',
+	'今年的巨蟹如果求守安稳、鲜少作为，也能过上平淡温馨的小日子，但原地踏步只会浪费一波波袭来的好运，让周围的人事远远将你抛在身后。不妨大胆将自己的想法付诸实践，有什么规划就着手实施，如跳槽、转行、创业、投资、旅行、约会、告白等等，事情只要开始了，结果就会超出你想像的好。上半年贵人运极佳，事情遇到艰难险阻，自会有贵人主动前来相助。下半年感情运走红，需注意的是凡事不可以自我为中心，要懂得将心比心，处处为对方设想。',
+	'',
+	'',
+	'',
+	'',
+	'',
+	'',
+	'',
+	'',
+	'',
+	'',
+	'',
+	'',
+	]
+
+	$(function  () {
+		var h5 = new H5();
+		var list_index = 3;
+		
+		h5
+		.addPage('face')
+			.addComponent('bg',{
+				css:{
+					width:'150%',
+					height:'100%',
+					left:'-25%',
+					backgroundSize:'cover'
+				},
+				bg:'imgs/face_bg.png'
+			})
+			.addComponent('enter',{
+					text:'我的2016星座运势',
+					onclick : function(){
+						$.fn.fullpage.moveTo( 1 )
+					}
+				})
+
+	var list = h5.addPage('list');
+		
+		for(var i=0;i<12;i++){
+			list.addComponent('star star_'+i,{
+				'text':star_data[i].name,
+				'bg':'imgs/'+star_data[i].bg+'.png',
+				css:{
+					'-webkit-animation':'rock 12s infinite '+(i+2)+'s'
+				},
+				onclick:(function(i){
+					return function(){
+						$.fn.fullpage.moveTo( list_index + i )
+					}
+				})(i)
+			})
+		}
+		
+		for(var i=0;i<12;i++){
+			h5.addPage('star')
+				.addComponent('detail_icon',{
+					width:160,
+					height:160,
+					center:true,
+					css:{top:'50px'},
+					'bg':'imgs/'+star_data[i].bg+'.png',
+				})
+				.addComponent('detail detail_'+i,{
+					'text': star_data[i].name + ' - ' + star_data[i].date,
+					css:{
+						textAlign:'center',
+						width:'100%',
+						top:'160px'
+					}
+				})
+				.addComponent('bar',{
+					type : 'bar',
+					width : 530,
+					height : 400,
+					data:star_data[i].data,
+					css:{top:'250px'},
+				})
+				
+				.addComponent('enter_small',{
+					text:'星座',
+					css:{left:'30%',top:'50%',opacity:0},
+					animateIn:{opacity:1,top:'80%',},
+					onclick : function(){
+						$.fn.fullpage.moveTo( list_index-1 )
+					},
+					delay:1000
+				})
+				.addComponent('enter_small',{
+					text:'更多',
+					css:{right:'-20%',top:'80%',opacity:0,backgroundColor:'rgba(255, 114, 130, 0.51)'},
+					animateIn:{opacity:1,right:'20%',},
+					onclick : (function(i){return function(){
+						
+						$.fn.fullpage.moveTo( list_index + 12 );
+						$('.h5_component_name_end_text').text(star_detail_data[i]);
+						$('.h5_component_name_end_icon').css('backgroundImage','url(imgs/'+star_data[i].bg+'.png)');
+						
+					}})(i),
+					delay:1500
+				})
+		}
+		h5.addPage('end')
+			.addComponent('share',{
+                    width:128,
+                    height:120,
+                    bg:'imgs/tail_share.png',
+                    css:{opacity:0,top:110,right:110},
+                    animateIn:{opacity:1,top:10,right:10},
+                    animateOut:{opacity:0,top:110,right:110},
+                    delay:1000 
+                })
+			.addComponent('end_icon',{
+					width:160,
+					height:160,
+					center:true,
+					css:{top:'50px'},
+					
+					'bg':'imgs/'+star_data[0].bg+'.png',
+			})
+			.addComponent('end_text',{
+				css:{
+					padding:'10px 2em',
+					textIndent:'2em',
+					top:'30%',
+					opacity:0
+				},
+				animateIn:{opacity:1},
+				text: star_detail_data[0]
+			})
+			.addComponent('enter',{
+					html:'返回<br>星座',
+					css:{left:'50%',top:'100%',opacity:0},
+					animateIn:{opacity:.5,top:'85%',},
+					onclick : function(){
+						$.fn.fullpage.moveTo( 1 )
+					},
+					delay:1500
+				})
+		h5.loader( [ 'imgs/baiyang.png' ]);
+		
+	});
+    </script>
+
+    </body>
+
+</html>
